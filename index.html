@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Jeu du Clic 🔥</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      text-align: center;
+      background: linear-gradient(145deg, #8e44ad, #3498db);
+      color: white;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      margin-top: 40px;
+      font-size: 3em;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #gameArea {
+      margin-top: 50px;
+    }
+
+    #clickBtn {
+      font-size: 24px;
+      padding: 20px 40px;
+      border: none;
+      border-radius: 10px;
+      background-color: #2ecc71;
+      color: white;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    #clickBtn:hover {
+      transform: scale(1.05);
+    }
+
+    #score, #timer, #highScore, #endMessage {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    #restartBtn {
+      display: none;
+      margin-top: 30px;
+      padding: 12px 24px;
+      font-size: 18px;
+      border: none;
+      border-radius: 8px;
+      background-color: #e67e22;
+      color: white;
+      cursor: pointer;
+    }
+
+    #restartBtn:hover {
+      background-color: #d35400;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔥 Jeu du Clic 🔥</h1>
+  <div id="gameArea">
+    <div id="timer">⏱️ Temps restant : 10s</div>
+    <button id="clickBtn">Clique ici ! 👆</button>
+    <div id="score">Score : 0</div>
+    <div id="highScore">🏆 Meilleur score : 0</div>
+    <div id="endMessage"></div>
+    <button id="restartBtn">Rejouer 🔁</button>
+  </div>
+
+  <!-- 🎵 Son intégré -->
+  <audio id="clickSound" preload="auto">
+    <source src="https://www.soundjay.com/button/sounds/button-16.mp3" type="audio/mpeg">
+    Ton navigateur ne supporte pas l'audio.
+  </audio>
+
+  <script>
+    let score = 0;
+    let timeLeft = 10;
+    let gameStarted = false;
+    let timerInterval;
+    let highScore = localStorage.getItem("highScore") || 0;
+
+    const clickBtn = document.getElementById("clickBtn");
+    const scoreDisplay = document.getElementById("score");
+    const timerDisplay = document.getElementById("timer");
+    const highScoreDisplay = document.getElementById("highScore");
+    const endMessage = document.getElementById("endMessage");
+    const restartBtn = document.getElementById("restartBtn");
+    const clickSound = document.getElementById("clickSound");
+
+    highScoreDisplay.textContent = `🏆 Meilleur score : ${highScore}`;
+
+    clickBtn.addEventListener("click", () => {
+      if (!gameStarted) {
+        startGame();
+      }
+      if (timeLeft > 0) {
+        score++;
+        scoreDisplay.textContent = "Score : " + score;
+        clickSound.currentTime = 0; // Rejoue le son depuis le début
+        clickSound.play();
+      }
+    });
+
+    restartBtn.addEventListener("click", () => {
+      resetGame();
+    });
+
+    function startGame() {
+      gameStarted = true;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerDisplay.textContent = "⏱️ Temps restant : " + timeLeft + "s";
+        if (timeLeft <= 0) {
+          endGame();
+        }
+      }, 1000);
+    }
+
+    function endGame() {
+      clearInterval(timerInterval);
+      clickBtn.disabled = true;
+
+      if (score > highScore) {
+        localStorage.setItem("highScore", score);
+        highScore = score;
+        endMessage.innerHTML = `🎉 Félicitations ! Tu as battu ton record !<br>Nouveau meilleur score : ${score} 👑`;
+      } else {
+        endMessage.innerHTML = `⏱️ Temps écoulé ! Ton score est de ${score}.<br>Ton record reste à ${highScore}.`;
+      }
+
+      highScoreDisplay.textContent = `🏆 Meilleur score : ${highScore}`;
+      restartBtn.style.display = "inline-block";
+    }
+
+    function resetGame() {
+      score = 0;
+      timeLeft = 10;
+      gameStarted = false;
+      clickBtn.disabled = false;
+      scoreDisplay.textContent = "Score : 0";
+      timerDisplay.textContent = "⏱️ Temps restant : 10s";
+      endMessage.textContent = "";
+      restartBtn.style.display = "none";
+    }
+  </script>
+</body>
+</html>
