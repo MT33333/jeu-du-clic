@@ -47,7 +47,7 @@ Ce jeu est hébergé gratuitement avec GitHub Pages :
 ## Auteur
 
 💻 Réalisé  par **Marie-Thérèse KOUNOU MBARGA**  
-*(Projet perso pour apprendre Git, GitHub, déploiement web, JS & plus encore)*
+*(Projet perso pour apprendre Git, GitHub, déploiement web et JS)*
 
 ---
 
