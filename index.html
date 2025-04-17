@@ -2,8 +2,13 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Jeu du Clic 🔥</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       text-align: center;
@@ -14,24 +19,28 @@
     }
 
     h1 {
-      margin-top: 40px;
-      font-size: 3em;
+      margin-top: 5vh;
+      font-size: 6vw;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
     }
 
     #gameArea {
-      margin-top: 50px;
+      margin: 5vh auto;
+      max-width: 90%;
     }
 
     #clickBtn {
-      font-size: 24px;
-      padding: 20px 40px;
+      font-size: 6vw;
+      padding: 5vw 10vw;
       border: none;
       border-radius: 10px;
       background-color: #2ecc71;
       color: white;
       cursor: pointer;
       transition: transform 0.1s ease;
+      margin: 4vh 0;
+      width: 80%;
+      max-width: 400px;
     }
 
     #clickBtn:hover {
@@ -39,24 +48,39 @@
     }
 
     #score, #timer, #highScore, #endMessage {
-      font-size: 24px;
-      margin-top: 20px;
+      font-size: 5vw;
+      margin-top: 2vh;
     }
 
     #restartBtn {
       display: none;
-      margin-top: 30px;
-      padding: 12px 24px;
-      font-size: 18px;
+      margin-top: 4vh;
+      padding: 3vw 6vw;
+      font-size: 4.5vw;
       border: none;
       border-radius: 8px;
       background-color: #e67e22;
       color: white;
       cursor: pointer;
+      width: 60%;
+      max-width: 300px;
     }
 
     #restartBtn:hover {
       background-color: #d35400;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 3em;
+      }
+      #clickBtn, #restartBtn {
+        font-size: 24px;
+        padding: 20px 40px;
+      }
+      #score, #timer, #highScore, #endMessage {
+        font-size: 24px;
+      }
     }
   </style>
 </head>
@@ -71,11 +95,10 @@
     <button id="restartBtn">Rejouer 🔁</button>
   </div>
 
-  <!-- 🎵 Son intégré -->
   <audio id="clickSound" preload="auto">
     <source src="https://www.soundjay.com/button/sounds/button-16.mp3" type="audio/mpeg">
-    Ton navigateur ne supporte pas l'audio.
-  </audio>
+
+ </audio>
 
   <script>
     let score = 0;
@@ -101,7 +124,7 @@
       if (timeLeft > 0) {
         score++;
         scoreDisplay.textContent = "Score : " + score;
-        clickSound.currentTime = 0; // Rejoue le son depuis le début
+        clickSound.currentTime = 0;
         clickSound.play();
       }
     });
